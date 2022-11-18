@@ -13,8 +13,8 @@ tfidf = pickle.load(open("tfidf", "rb"))
 
 #Looping through all the tweets and passing them into machine learning model
 n = 0
-for tweet  in tweets:
-    print(f"{n/len(tweets)}")
+for tweet in tweets:
+    print(f"{n/len(tweets)}%")
     n += 1
     tweet_sentiment = model.predict(tfidf.transform([tweet]))
     if tweet_sentiment == 1:
@@ -25,5 +25,5 @@ for tweet  in tweets:
     print(f"TWEET: {tweet}\n TWEET SENTIMENT: {tweet_sentiment}\n")
 print(f"POSITIVE SENTIMENT COUNT: {positive_sentiment_count}\n")
 print(f"NEGATIVE SENTIMENT COUNT: {negative_sentiment_count}\n")
-print(f"POSITIVE SENTIMENT PERCENTAGE: {positive_sentiment_count/(positive_sentiment_count + negative_sentiment_count)}\n")
-print(f"NEGATIVE SENTIMENT PERCENTAGE: {negative_sentiment_count/(positive_sentiment_count + negative_sentiment_count)}\n")
+print(f"POSITIVE SENTIMENT PERCENTAGE: {(positive_sentiment_count/(positive_sentiment_count + negative_sentiment_count)) * 100}%\n")
+print(f"NEGATIVE SENTIMENT PERCENTAGE: {(negative_sentiment_count/(positive_sentiment_count + negative_sentiment_count))*100}%\n")
