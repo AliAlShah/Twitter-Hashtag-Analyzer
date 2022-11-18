@@ -35,3 +35,4 @@ print(classification_report(Y_test, y_pred))
 
 #storring model using the pickle library
 pickle.dump(clf, open('model', 'wb'))
+pickle.dump(tfidf, open('tfidf', 'wb'))

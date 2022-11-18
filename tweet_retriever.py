@@ -14,6 +14,10 @@ api = tweepy.API(auth)
 
 
 def get_tweets(key_word, limit):
+    #making sure not too many tweets are fetched
+    if limit > 10000:
+        limit = 10000
+
     #collecting tweets which include the keyword given in the function and limiting the number of tweets to the other argument of the function
     tweets = tweepy.Cursor(api.search_tweets, q=key_word, count=100, tweet_mode='extended', lang='en').items(limit)
     tweets_list = [tweet.full_text for tweet in tweets]
