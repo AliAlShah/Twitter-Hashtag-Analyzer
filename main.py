@@ -2,6 +2,12 @@ from tweet_retriever import *
 from twitter_sentiment_model import *
 from plots import *
 
+from website import create_app
+
+app = create_app()
+if __name__ == '__main__':
+    app.run(debug=True)
+
 #Getting tweets
 tweets = get_tweets(input("What keyword are you interested in???    \n"), int(input("How many tweets do you want to collect\n")))
 positive_sentiment_count = 0
