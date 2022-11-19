@@ -1,5 +1,6 @@
 from tweet_retriever import *
 from twitter_sentiment_model import *
+from plots import *
 
 #Getting tweets
 tweets = get_tweets(input("What keyword are you interested in???    \n"), int(input("How many tweets do you want to collect\n")))
@@ -34,3 +35,7 @@ for tweet in processed_tweets_list:
 print(f"POSITIVE SENTIMENT COUNT: {positive_sentiment_count}\n")
 print(f"NEGATIVE SENTIMENT COUNT: {negative_sentiment_count}\n")
 print(f"NEUTRAL SENTIMENT COUNT: {neutral_sentiment_count}\n")
+
+#Plotting bar chart and pie chart
+plot(posititve=positive_sentiment_count, negative=negative_sentiment_count, neutral=neutral_sentiment_count)
+pieplot(posititve=positive_sentiment_count, negative=negative_sentiment_count, neutral=neutral_sentiment_count)
