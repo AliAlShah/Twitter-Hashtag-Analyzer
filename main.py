@@ -1,29 +1,36 @@
 from tweet_retriever import *
-import pickle
-from sklearn.feature_extraction.text import TfidfVectorizer
+from twitter_sentiment_model import *
 
 #Getting tweets
 tweets = get_tweets(input("What keyword are you interested in???    \n"), int(input("How many tweets do you want to collect\n")))
 positive_sentiment_count = 0
+neutral_sentiment_count = 0
 negative_sentiment_count = 0
 
-#Loading model and dfidf vectorizer 
-model = pickle.load(open("model", "rb"))
-tfidf = pickle.load(open("tfidf", "rb"))
 
-#Looping through all the tweets and passing them into machine learning model
-n = 0
+#Converting @username to @user and converting all links to just http, this is so roberta is most effective
+processed_tweets_list = []
+tweet_words = []
 for tweet in tweets:
-    print(f"{n/len(tweets)}%")
-    n += 1
-    tweet_sentiment = model.predict(tfidf.transform([tweet]))
-    if tweet_sentiment == 1:
+    for word in tweet.split(' '):
+        if word.startswith('@') and len(word) > 1:
+            word = '@user'
+        elif word.startswith('http'):
+            word= 'http'
+        tweet_words.append(word)
+    processed_tweets_list.append(" ".join(tweet_words))
+    tweet_words = []
+
+
+#passing each tweet into model and keeping count of sentiments
+for tweet in processed_tweets_list:
+    prediction = predict(tweet)
+    if prediction == 1:
         positive_sentiment_count += 1
+    elif prediction == 0:
+        neutral_sentiment_count += 1
     else:
         negative_sentiment_count += 1
-    
-    print(f"TWEET: {tweet}\n TWEET SENTIMENT: {tweet_sentiment}\n")
 print(f"POSITIVE SENTIMENT COUNT: {positive_sentiment_count}\n")
 print(f"NEGATIVE SENTIMENT COUNT: {negative_sentiment_count}\n")
-print(f"POSITIVE SENTIMENT PERCENTAGE: {(positive_sentiment_count/(positive_sentiment_count + negative_sentiment_count)) * 100}%\n")
-print(f"NEGATIVE SENTIMENT PERCENTAGE: {(negative_sentiment_count/(positive_sentiment_count + negative_sentiment_count))*100}%\n")
+print(f"NEUTRAL SENTIMENT COUNT: {neutral_sentiment_count}\n")
